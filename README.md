@@ -29,7 +29,7 @@ Follow the instruction to compile it.
 ### Google Play Version
 
 1. Clone this project with `git`.
-2. Put your `.obb` file into `./raw` and rename to `{version}.obb`
+2. Put your `.obb` file into `./raw` and rename to `<main|patch>.{version}.obb`
 3. Put your `.apk` file into `./raw` and rename to `{version}.apk`
 4. Execute `./asset.sh {version}`
 5. Use AssetStudio to export files as below

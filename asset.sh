@@ -35,7 +35,8 @@ echo "Cleaned cache."
 unzip -q "./raw/$1.apk" -d ./res/apk
 echo "Unziped APK."
 
-unzip -q "./raw/$1.obb" -d ./res/obb
+unzip -q "./raw/main.$1.obb" -d ./res/obb
+unzip -q "./raw/patch.$1.obb" -d ./res/obb
 echo "Unziped OBB."
 
 # move unity
