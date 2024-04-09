@@ -331,8 +331,8 @@ def loadIM():
 
 def loadOS():
     global vcodes
-    res    = getJson(BASEDATA+"/cutscenedata/cutscene_data.txt")
-    oslist = getJson("./res/converted/data/oslist.json")
+    res    = getJson(BASEDATA+"/cutscenedata/cutscene_data_os.txt")
+    oslist = getJson("./res/converted/data/dblist.json")
     ostime = []
     if oslist == [] or int(VERSION.split(".")[0]) > 2:
         oslist = {}
@@ -354,30 +354,40 @@ def loadOS():
         for i in cdata:
             # put file
             contents = []
-            for content in i["Contents"]:
-                contents.append(handleOS(content))
-            putJson(
-                "./res/converted/data/osfiles/%s/%s.json" % (chara, i["Id"].lower()),
-                {
-                    "id": i["Id"].lower(),
-                    "name": i["Names"][0],
-                    "res": (
-                        res[i["Id"].lower()]["MovieFile"] if i["Id"].lower() in res.keys() else None
-                    ),
-                    "contents": contents,
-                },
-            )
-            if "Category" in i.keys() and i["Category"] not in vcodes:
-                vcodes.append(i["Category"])
+            # print(f"Convert OS {i}", flush=True)
+            if 'Contents' in i:
+                for content in i["Contents"]:
+                    contents.append(handleOS(content))
+                putJson(
+                    "./res/converted/data/osfiles/%s/%s.json" % (chara, i["Id"].lower()),
+                    {
+                        "id": i["Id"].lower(),
+                        "name": i["Names"][0],
+                        "res": (
+                            res[i["Id"].lower()]["MovieFile"] if i["Id"].lower() in res.keys() else None
+                        ),
+                        "contents": contents,
+                    },
+                )
+            if "Category" in i.keys():
+                if i["Category"] == 1 or i["Category"] == 0:
+                    i["Category"] = "1.0"
+                if i["Category"] not in vcodes:
+                    print(f"Add OS version {i['Category']} to {vcodes}", flush=True)
+                    vcodes.append(i["Category"])
             # add to cache
-            if i["Id"].lower() not in cache:
-                files[i["Id"].lower()] = {
-                    "name": i["Names"][0],
-                    "version": i["Category"] if "Category" in i.keys() else VERSION,
-                }
-                cache.append(i["Id"].lower())
-        oslist[chara] = {"name": cnames[chara], "files": files}
-        saveCache('data', 'os_%s' % chara, cache)
+            if i["Id"] not in cache:
+                # print(f"Add OS {i}", flush=True)
+                if 'Names' in i:
+                    files[i["Id"]] = {
+                        "name": i["Names"][0],
+                        "version": i["Category"] if "Category" in i.keys() else VERSION,
+                    }
+                    cache.append(i["Id"])
+        if chara in cnames:
+            print(f"Finished OS {chara} name: {cnames[chara]}", flush=True)
+            oslist[chara] = {"name": cnames[chara], "files": files}
+            saveCache('data', 'os_%s' % chara, cache)
 
         # timeline
         for i in files.keys():
@@ -405,7 +415,7 @@ def loadDB():
     extrafs = [
         (6, "./res/export/audios/extra", "Extra_Music", "./audios/extra"),
         (5, "./res/export/videos/extra", "Extra_Video", "./videos/extra"),
-        (1, "./res/export/videos/story", "Extra_StoryVideo", "./videos"),
+        (1, "./res/export/videos/story", "Extra_StoryVideo", "./videos/story"),
         (5, "./res/export/videos/titles", "Extra_TitleVideo", "./videos/titles"),
         (5, "./res/export/videos/song_select", "Extra_SongSelect", "./videos/song_select"),
         (5, "./res/export/videos/TrueEndVideos", "Extra_TrueEndVideos", "./videos/TrueEndVideos"),

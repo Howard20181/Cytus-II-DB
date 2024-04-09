@@ -64,7 +64,7 @@ You can delete the cache of any module as you wish. They are stored in `./res/co
 - `Convert Texture2D(PNG)`
 - `Group > container path` (or `do not group` before 0.14.11)
 2.  Load folder `./res/unitybundles`
-3.  Filter `AudioClip`, `TextAsset`, `Sprite`
+3.  Filter `AudioClip`, `TextAsset`, `Sprite`, `VideoClip`
 4.  `Export > Filtered assets` to `./res/export`
 5.  Restart(close&open) AssetStudio 
 6.  Load folder `./res/unitydata`
