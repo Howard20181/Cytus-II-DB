@@ -78,7 +78,7 @@ export default {
         case 1:
           return `./videos/${this.$route.params.id}.mp4`;
         case 2:
-          return `./audios/story/${this.$route.params.id}.mp3`;
+          return `./audios/story/${this.$route.params.id}.webm`;
         case 3:
           return false;
         case 4:
@@ -86,7 +86,7 @@ export default {
         case 5:
           return `${this.current().location}/${this.$route.params.id}.mp4`;
         case 6:
-          return `${this.current().location}/${this.$route.params.id}.mp3`;
+          return `${this.current().location}/${this.$route.params.id}.webm`;
         default:
           return false;
       }

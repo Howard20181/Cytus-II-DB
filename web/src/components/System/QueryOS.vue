@@ -32,7 +32,7 @@
         <div class="audio" v-if="item.type=='bgm'">
           <AudioPlayer theme="#2d303a" :music="{
             pic: './empty.png',
-            src: `./audios/bgms/${item.attrs[0].toLowerCase()}.mp3`,
+            src: `./audios/bgms/${item.attrs[0].toLowerCase()}.webm`,
             loop: 'one',
             mutex: false,
             title: $t('os.bgm'),
@@ -42,7 +42,7 @@
         <div class="audio" v-if="item.type=='sound'">
           <AudioPlayer theme="#2d303a" :music="{
             pic: './empty.png',
-            src: `./audios/sounds/${item.attrs[0].toLowerCase()}.mp3`,
+            src: `./audios/sounds/${item.attrs[0].toLowerCase()}.webm`,
             loop: 'none',
             mutex: false,
             title: item.attrs[1],
