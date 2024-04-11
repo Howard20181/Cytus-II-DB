@@ -79,7 +79,7 @@ def do_attachments(kind):
             im = im.resize((im.width, im.height * 7 // 10))
         else:
             print("%s at %d x %d" % (i, im.width, im.height))
-        im.convert("RGB").save("%s/%s.jpg" % (ofolder, i))
+        im.convert("RGB").save("%s/%s.webp" % (ofolder, i))
         # add cache
         cache.append(i)
 
@@ -96,7 +96,7 @@ def do_avatars():
     for folder in folders:
         for i in os.listdir(folder[0]):
             ifn = "%s/%s" % (folder[0], i)
-            ofn = "%s/%s" % (folder[1], i)
+            ofn = f"{folder[1]}/{PurePosixPath(ifn).stem}.webp"
             # check cache
             if ofn in cache:
                 continue
@@ -120,7 +120,7 @@ def do_gallery():
                 im = Image.open(folder + "/" + gfile["FileLocation"] + ".png")
                 im = im.resize((int(sz[0]), int(sz[1])))
                 im.convert("RGB").save(
-                    "./res/converted/images/gallery/%s.jpg" % gfile["FileLocation"]
+                    "./res/converted/images/gallery/%s.webp" % gfile["FileLocation"]
                 )
                 cache.append(gfile["FileLocation"])
     saveCache("image", "gallery", cache)
@@ -132,7 +132,7 @@ def do_imageviewer():
     for i in os.listdir(folder):
         fid = i.split("_")[0]
         ifn = "%s/%s" % (folder, i)
-        ofn = "./res/converted/images/osspecial/%s.jpg" % i.split(".")[0]
+        ofn = "./res/converted/images/osspecial/%s.webp" % i.split(".")[0]
         # check cache
         if ofn in cache:
             continue

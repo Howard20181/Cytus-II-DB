@@ -50,8 +50,8 @@
           }" preload/>
         </div>
         <div class="image" v-if="item.type=='image'">
-          <img :alt="item.attrs[0]" :src="`./images/osfiles/${item.attrs[0].toLowerCase()}.jpg`"
-            @click="()=>viewImage(`./images/osfiles/${item.attrs[0].toLowerCase()}.jpg`)">
+          <img :alt="item.attrs[0]" :src="`./images/osfiles/${item.attrs[0].toLowerCase()}.webp`"
+            @click="()=>viewImage(`./images/osfiles/${item.attrs[0].toLowerCase()}.webp`)">
         </div>
         <JsonObject v-if="item.type=='json'" :raw="item"/>
         <MailObject v-if="item.type=='mail'"

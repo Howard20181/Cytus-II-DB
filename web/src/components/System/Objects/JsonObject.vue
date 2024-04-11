@@ -8,7 +8,7 @@
           system: item.MessageType===0,
         }">
         <div class="avatar" v-if="item.Avatar">
-          <img :src="`./images/osavatars/${item.Avatar.toLowerCase()}.png`" :alt="item.Avatar">
+          <img :src="`./images/osavatars/${item.Avatar.toLowerCase()}.webp`" :alt="item.Avatar">
         </div>
         <div class="body">
           <div class="info" v-if="item.UserName||item.Time">
@@ -16,7 +16,7 @@
             <div class="time">{{item.Time}}</div>
           </div>
           <div class="sticker" v-if="item.MessageType===3||item.MessageType===4">
-            <img :src="`./images/osstickers/${item.Image.toLowerCase()}.png`" :alt="item.Image">
+            <img :src="`./images/osstickers/${item.Image.toLowerCase()}.webp`" :alt="item.Image">
           </div>
           <div class="text" v-if="item.Content">{{item.Content}}</div>
         </div>
@@ -24,14 +24,14 @@
     </div>
     <div class="image" v-if="file.type===1">
       <img :alt="file.data.Image"
-        :src="`./images/osspecial/${file.data.Image.toLowerCase()}.jpg`"
-        @click="()=>viewImage(`./images/osspecial/${file.data.Image.toLowerCase()}.jpg`)">
+        :src="`./images/osspecial/${file.data.Image.toLowerCase()}.webp`"
+        @click="()=>viewImage(`./images/osspecial/${file.data.Image.toLowerCase()}.webp`)">
     </div>
     <template v-if="file.type===2">
       <div class="image" v-for="item in file.data" :key="item.Id">
         <img :alt="item.Id"
-          :src="`./images/osfiles/${item.Id.toLowerCase()}.jpg`"
-          @click="()=>viewImage(`./images/osfiles/${item.Id.toLowerCase()}.jpg`)">
+          :src="`./images/osfiles/${item.Id.toLowerCase()}.webp`"
+          @click="()=>viewImage(`./images/osfiles/${item.Id.toLowerCase()}.webp`)">
       </div>
     </template>
   </div>

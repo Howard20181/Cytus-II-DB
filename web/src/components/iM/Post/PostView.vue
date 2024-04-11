@@ -1,7 +1,7 @@
 <template>
   <div class="view">
     <div class="avatar">
-      <img :src="`./images/imavatars/${avatar}.png`" :alt="avatar"/>
+      <img :src="`./images/imavatars/${avatar}.webp`" :alt="avatar"/>
       <div class="name">{{name}}</div>
     </div>
     <div class="content">
@@ -11,9 +11,9 @@
       <div class="text" v-html="text"/>
       <div class="image" v-for="item in attachments" :key="`${pid}-attach-${item}`">
         <img
-          :src="`./images/imfiles/${item.toLowerCase()}.jpg`"
+          :src="`./images/imfiles/${item.toLowerCase()}.webp`"
           :alt="item"
-          @click="viewImage(`./images/imfiles/${item.toLowerCase()}.jpg`)">
+          @click="viewImage(`./images/imfiles/${item.toLowerCase()}.webp`)">
       </div>
     </div>
   </div>

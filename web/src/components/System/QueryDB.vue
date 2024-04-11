@@ -27,8 +27,8 @@
           }" preload/>
         </div>
         <div class="image" v-if="current().type==3">
-          <img :alt="$route.params.id" :src="`./images/gallery/${$route.params.id}.jpg`"
-            @click="viewImage(`./images/gallery/${$route.params.id}.jpg`)">
+          <img :alt="$route.params.id" :src="`./images/gallery/${$route.params.id}.webp`"
+            @click="viewImage(`./images/gallery/${$route.params.id}.webp`)">
         </div>
       </div>
     </template>
