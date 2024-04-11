@@ -4,6 +4,7 @@
 from PIL import Image
 from pydub import AudioSegment
 from pathlib import Path, PurePosixPath
+from datetime import datetime
 
 import os, re, sys, json
 
@@ -34,7 +35,7 @@ def getJson(src):
 def putJson(src, content):
     try:
         with open(src, "wb") as f:
-            f.write(json.dumps(content, ensure_ascii=False).encode("utf8"))
+            f.write(json.dumps(content, ensure_ascii=False, default=json_serial).encode("utf8"))
     except Exception as e:
         print(e)
 
@@ -260,19 +261,26 @@ def trimContent(content):
     return content
 
 
-def getTime(name):
-    time = 0
-    name = name.replace("?", "0").replace("X", "0").replace("(", "").replace(")", "")
-
-    r = re.search(r"_(\d{3})_(\d{1,2})_(\d{1,2})(?:_(\d{1,2}))?$", name)
-    if r:
-        num = r.group(4) if (r.group(4) and r.group(4).isdigit()) else "0"
-        time = int(
-            "{:0>3d}{:0>2d}{:0>2d}{:0>2d}".format(
-                int(r.group(1)), int(r.group(2)), int(r.group(3)), int(num)
-            )
-        )
-    return time if time != 0 else MAX_TIME
+def getTime(date_str):
+    date_str = date_str.replace("?", "0")
+    ymd = date_str.split("\n")[0].split("_")
+    year = int("".join(filter(str.isdigit, ymd[0])))
+    month = int("".join(filter(str.isdigit, ymd[1])))
+    data = int("".join(filter(str.isdigit, ymd[2])))
+    if year < 999:
+        year = 1000 + year
+    if month <= 0:
+        month = 1
+    if data <= 0:
+        data = 1
+    if month == 2 and data > 28:
+        month += 1
+        data = 1
+    if month in [4, 6, 9, 11] and data > 30:
+        month += 1
+        data = 1
+    date_str = f"{year}_{month}_{data}\n{date_str.split('\n')[1]}"
+    return datetime.strptime(f"{date_str}", "%Y_%m_%d\n%H:%M:%S")
 
 
 def handleiM(iMFile, rk):
@@ -442,26 +450,21 @@ def loadOS():
                         "version": i["Category"] if "Category" in i.keys() else VERSION,
                     }
                     cache.append(i["Id"])
+            # timeline
+            if "Date" in i.keys():
+                ostime.append(
+                    {
+                        "id": i["Id"],
+                        "time": getTime(i["Date"]),
+                        "name": files[i["Id"]]["name"],
+                        "folder": chara,
+                        "version": files[i["Id"]]["version"],
+                    }
+                )
         if chara in cnames:
             oslist[chara] = {"name": cnames[chara], "files": files}
             saveCache("data", "os_%s" % chara, cache)
             print(f"Finished OS {chara} name: {cnames[chara]}", flush=True)
-
-        # timeline
-        for i in files.keys():
-            # get time
-            time = getTime(files[i]["name"])
-            if (time == MAX_TIME) and (len(ostime) > 0):
-                time = ostime[len(ostime) - 1]["time"] + 1
-            ostime.append(
-                {
-                    "id": i,
-                    "time": time,
-                    "name": files[i]["name"],
-                    "folder": chara,
-                    "version": files[i]["version"],
-                }
-            )
     # save data
     ostime.sort(key=lambda x: (x["time"], x["id"].lower()))
     putJson("./res/converted/data/oslist.json", oslist)
