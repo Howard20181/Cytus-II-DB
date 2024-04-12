@@ -312,7 +312,10 @@ def handleOS(OSContent):
 
         if len(header) > 1:
             attrs = header[1].split(",")
-            attrs[0] = "".join(filter(str.isprintable, attrs[0])).replace(" ", "")
+            attrs_name = list(attrs[0])
+            if attrs_name[0] == " ":
+                attrs_name.pop(0)
+                attrs[0] = "".join(attrs_name)
 
         if len(package) > 1:
             content = trimContent("\n".join(package[1:]))
