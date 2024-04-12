@@ -16,7 +16,7 @@
             <div class="time">{{item.Time}}</div>
           </div>
           <div class="sticker" v-if="item.MessageType===3||item.MessageType===4">
-            <img :src="`./images/osstickers/${item.Image.toLowerCase()}.webp`" :alt="item.Image">
+            <img :src="`./images/osstickers/${item.Image.toLowerCase()}.png`" :alt="item.Image">
           </div>
           <div class="text" v-if="item.Content">{{item.Content}}</div>
         </div>
@@ -47,7 +47,7 @@ export default {
         case 'msgs':
           return {
             type: 0,
-            data:JSON.parse(this.raw.content.replace(/\n/g, "\\n"))
+            data:JSON.parse(this.raw.content.replace(/},\n{/g, "},{").replace(/}]\n/g, "}]").replace(/\n/g, "\\n"))
           };
         case 'imageviewer':
           return {
