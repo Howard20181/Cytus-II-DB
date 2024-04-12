@@ -35,7 +35,7 @@ def getJson(src):
 def putJson(src, content):
     try:
         with open(src, "wb") as f:
-            f.write(json.dumps(content, ensure_ascii=False, default=json_serial).encode("utf8"))
+            f.write(json.dumps(content, ensure_ascii=False, default=str).encode("utf8"))
     except Exception as e:
         print(e)
 
@@ -312,6 +312,7 @@ def handleOS(OSContent):
 
         if len(header) > 1:
             attrs = header[1].split(",")
+            attrs[0] = "".join(filter(str.isprintable, attrs[0])).replace(" ", "")
 
         if len(package) > 1:
             content = trimContent("\n".join(package[1:]))
