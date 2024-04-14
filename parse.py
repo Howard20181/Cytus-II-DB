@@ -7,6 +7,8 @@ from pathlib import Path, PurePosixPath
 from datetime import datetime
 
 import os, re, sys, json
+import webvtt
+from webvtt.errors import MalformedFileError
 
 VERSION = ""
 
@@ -200,15 +202,6 @@ Subtitles Section
 """
 
 
-def srt2vtt(ifn, ofn):
-    content = open(ifn, "r", encoding="utf-8").read()
-    content = "WEBVTT\n\n" + content
-    content = re.sub(
-        r"(\d{2}:\d{2}:\d{2}),(\d{3})", lambda m: m.group(1) + "." + m.group(2), content
-    )
-    open(ofn, "w", encoding="utf-8").write(content)
-
-
 def do_srt():
     srtlangs = [
         ("en", "en"),
@@ -227,18 +220,11 @@ def do_srt():
                 i.split(".")[0],
                 lang[1],
             )
-            srt2vtt(ifn, ofn)
-    # preset
-    for i in os.listdir("./res/export/videos"):
-        if ".mp4" in i:
-            for lang in srtlangs:
-                ifn = "./res/converted/data/subtitles/%s_%s.vtt" % (
-                    i.split(".")[0],
-                    lang[1],
-                )
-                if not os.path.isfile(ifn):
-                    with open(ifn, "w") as f:
-                        f.write("")
+            with open(ofn, "w", encoding="utf-8") as fd:
+                try:
+                    webvtt.from_srt(ifn).write(fd)
+                except MalformedFileError:
+                    pass
     print("Finished Srt.")
 
 
@@ -267,8 +253,8 @@ def getTime(date_str):
     year = int("".join(filter(str.isdigit, ymd[0])))
     month = int("".join(filter(str.isdigit, ymd[1])))
     data = int("".join(filter(str.isdigit, ymd[2])))
-    if year < 999:
-        year = 1000 + year
+    if year < 2000:
+        year = 3000 + year
     if month <= 0:
         month = 1
     if data <= 0:
@@ -348,8 +334,6 @@ def loadIM():
         rank = 0
         for lchara in ldata["LevelLocks"]:
             rank += lchara["Level"]
-        if ldata["StoryLockId"] != "":
-            rank = 9999
         imrank[ldata["TopicId"].lower()] = rank
     # convert imdata
     for i in imlist:
@@ -390,7 +374,7 @@ def loadIM():
         posts.append(handleiM(i, imrank[i["Id"].lower()]))
         cache.append(i["Id"].lower())
     # save data
-    posts.sort(key=lambda x: (x["rank"], x["id"]))
+    posts.sort(key=lambda x: (x["rank"], x["id"][1:]))
     putJson("./res/converted/data/imlist.json", posts)
     saveCache("data", "im", cache)
     print("Finished iM")
