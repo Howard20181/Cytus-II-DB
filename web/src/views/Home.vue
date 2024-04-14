@@ -1,36 +1,36 @@
 <template>
   <div class="home">
     <div class="header">
-      {{$t("header.version")}}: {{version}}<br>
-      {{$t("login.username")}}: Ivy<br>
-      {{$t("home.header.line3")}}: Constructor<br>
-      {{$t("home.header.line4")}}<br>
+      {{ $t("header.version") }}: {{ version }}<br>
+      {{ $t("login.username") }}: Ivy<br>
+      {{ $t("home.header.line3") }}: Constructor<br>
+      {{ $t("home.header.line4") }}<br>
     </div>
     <div class="body">
-      <p>{{$t("home.text.line1")}}</p>
-      <p>{{$t("home.text.line2")}}</p>
-      <p>{{$t("home.text.line3")}}:</p>
+      <p>{{ $t("home.text.line1") }}</p>
+      <p>{{ $t("home.text.line2") }}</p>
+      <!-- <p>{{ $t("home.text.line3") }}:</p>
       <p>
         <a href="https://github.com/cytus2db/Cytus-II-DB" target="_blank">Github</a>
       </p>
-      <p>{{$t("home.text.line4")}}:</p>
+      <p>{{ $t("home.text.line4") }}:</p>
       <p>
         <a href="https://afdian.net/@dtsdao" target="_blank">爱发电</a>
         &nbsp; / &nbsp;
         <a href="https://www.patreon.com/dtsdao" target="_blank">Patreon</a>
-      </p>
-      <p>{{$t("home.text.line5")}}</p>
-    </div>
-    <div class="buttons">
-      <router-link class="button" to="/im">
-        <img src="@/assets/home-im.png" alt="iM"/>iM
-      </router-link>
-      <router-link class="button" to="/os">
-        <img src="@/assets/home-os.png" alt="OS"/>OS
-      </router-link>
-      <router-link class="button" to="/db">
-        <img src="@/assets/home-db.png" alt="DB"/>DB
-      </router-link>
+      </p> -->
+      <p>{{ $t("home.text.line5") }}</p>
+      <div class="buttons">
+        <router-link class="button" to="/im">
+          <img src="@/assets/home-im.png" alt="iM" />iM
+        </router-link>
+        <router-link class="button" to="/os">
+          <img src="@/assets/home-os.png" alt="OS" />OS
+        </router-link>
+        <router-link class="button" to="/db">
+          <img src="@/assets/home-db.png" alt="DB" />DB
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -58,17 +58,21 @@ export default {
     font-style: italic;
     padding-top: 12px;
   }
+
   .body p {
     margin: 16px 0px;
   }
+
   .buttons {
     width: 100%;
     display: flex;
     flex-flow: wrap;
+
     a {
       color: #fff;
     }
   }
+
   .button {
     display: flex;
     flex-direction: column;
@@ -79,10 +83,12 @@ export default {
     margin-bottom: 18px;
     margin-right: 18px;
     background: #2d303a;
+
     img {
       margin-bottom: 0.4em;
       width: 56px;
     }
+
     &:hover {
       background: #2d303a44;
       transition: 0.2s ease;

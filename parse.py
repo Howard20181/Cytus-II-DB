@@ -462,9 +462,10 @@ def loadDB():
     if dblist == []:
         dblist = {}
     extrafs = [
-        (6, "./res/export/audios/extra", "Extra_Music", "./audios/extra"),
+        (6, "./res/converted/audios/extra", "Extra_Music", "./audios/extra"),
         (5, "./res/export/videos/extra", "Extra_Video", "./videos/extra"),
         (1, "./res/export/videos", "Extra_StoryVideo", "./videos"),
+        (2, "./res/converted/audios/story", "Extra_StoryMusic", "./audios/story"),
         (5, "./res/export/videos/titles", "Extra_TitleVideo", "./videos/titles"),
         (
             5,
@@ -539,7 +540,6 @@ def main():
     # data
     loadChara()
     loadIM()
-    loadDB()
     loadOS()
 
     # assets
@@ -550,6 +550,7 @@ def main():
     do_attachments("11_im")
     do_attachments("15_os")
     do_music()
+    loadDB()
     vcodes.sort()
     putJson("./res/converted/data/versions.json", vcodes)
 
